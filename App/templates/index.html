@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manajemen Hewan</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1 class="mb-4">Daftar Hewan</h1>
+
+      {% with messages = get_flashed_messages() %} {% if messages %}
+      <div class="alert alert-info">
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+      </div>
+      {% endif %} {% endwith %}
+
+      <form method="GET" class="mb-3">
+        <div class="input-group">
+          <input
+            type="text"
+            name="search"
+            class="form-control"
+            placeholder="Cari hewan..."
+            value="{{ search_query }}"
+          />
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">Cari</button>
+          </div>
+        </div>
+      </form>
+
+      <div class="mb-3">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-primary"
+          >Dashboard</a
+        >
+        <a href="{{ url_for('add_user') }}" class="btn btn-success"
+          >Tambah User</a
+        >
+        <a href="{{ url_for('add_animal') }}" class="btn btn-warning"
+          >Tambah Hewan</a
+        >
+        <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+      </div>
+
+      <ul class="list-group">
+        {% for animal in animals.items %}
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
+          {{ animal.nama }} ({{ animal.jenis }}) - Pemilik: {{
+          animal.owner.username }}
+          <div>
+            <a
+              href="{{ url_for('edit_animal', animal_id=animal.hewan_id) }}"
+              class="btn btn-info btn-sm"
+              >Edit</a
+            >
+            <form
+              action="{{ url_for('delete_animal', animal_id=animal.hewan_id) }}"
+              method="POST"
+              style="display: inline"
+            >
+              <button
+                type="submit"
+                class="btn btn-danger btn-sm"
+                onclick="return confirm('Are you sure you want to delete this animal?');"
+              >
+                Hapus
+              </button>
+            </form>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+
+      <!-- Pagination -->
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center mt-4">
+          {% if animals.has_prev %}
+          <li class="page-item">
+            <a
+              class="page-link"
+              href="{{ url_for('index', page=animals.prev_num, search=search_query) }}"
+              aria-label="Previous"
+            >
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          {% endif %} {% for page_num in range(1, animals.pages + 1) %}
+          <li
+            class="page-item {% if page_num == animals.page %}active{% endif %}"
+          >
+            <a
+              class="page-link"
+              href="{{ url_for('index', page=page_num, search=search_query) }}"
+              >{{ page_num }}</a
+            >
+          </li>
+          {% endfor %} {% if animals.has_next %}
+          <li class="page-item">
+            <a
+              class="page-link"
+              href="{{ url_for('index', page=animals.next_num, search=search_query) }}"
+              aria-label="Next"
+            >
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </body>
+</html>

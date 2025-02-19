@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1>Dashboard</h1>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card text-white bg-primary mb-3">
+            <div class="card-header">Total Hewan</div>
+            <div class="card-body">
+              <h5 class="card-title">{{ total_animals }}</h5>
+              <p class="card-text">Jumlah total hewan yang terdaftar.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card text-white bg-success mb-3">
+            <div class="card-header">Total Pengguna</div>
+            <div class="card-body">
+              <h5 class="card-title">{{ total_users }}</h5>
+              <p class="card-text">Jumlah total pengguna yang terdaftar.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a href="{{ url_for('index') }}" class="btn btn-secondary"
+        >Kembali ke Daftar Hewan</a
+      >
+    </div>
+  </body>
+</html>
+    
